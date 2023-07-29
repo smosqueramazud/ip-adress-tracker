@@ -1,1 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+    margin: 0 !important;
+}
+
+:root{
+    --primary-color: hsl(0, 0%, 17%);
+    --secondary-color: hsl(0, 0%, 59%);
+    --primary-font-family: 'Rubik', sans-serif;
+}
