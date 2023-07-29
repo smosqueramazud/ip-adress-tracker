@@ -20,7 +20,6 @@ export class IpServicesService {
   }
 
   public getCoordinates(data: any): Observable<Coordinates[]> {
-    console.log(data);
     const headers = new HttpHeaders()
       .set('content-type', 'application/json')
       .set('X-Api-Key', '2C6s7KUsak2YwusbgKQziQ==UOUSVP6E6DFgx9gX');

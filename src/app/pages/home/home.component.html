@@ -10,7 +10,7 @@
                     <button [disabled]="ipAdrressForm.invalid" (click)="getIpAddress()" ><img [src]="imgButton" alt="" /></button>
                 </div>
             </div>
-            <p class="form-error" *ngIf="ipAdrressForm.controls['ip'].invalid">
+            <p class="form-error" *ngIf="ipAdrressForm.controls['ip'].errors?.['pattern']">
                 Ingrese una IP correcta!
             </p>
         </form>

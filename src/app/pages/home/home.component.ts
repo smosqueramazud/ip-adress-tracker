@@ -7,7 +7,7 @@ import { catchError, throwError } from 'rxjs';
 import { IpRes } from 'src/app/models/ip-res';
 import { Coordinates } from 'src/app/models/coordinates';
 import { CardInfoComponent } from './components/card-info/card-info.component';
-import { NgxSpinnerService, NgxSpinnerModule  } from 'ngx-spinner';
+import { NgxSpinnerService, NgxSpinnerModule } from 'ngx-spinner';
 
 declare const L: any;
 
@@ -48,9 +48,9 @@ export class HomeComponent implements OnInit {
   }
 
   async getIpAddress(ipNumber?: string) {
-    if(ipNumber){
+    if (ipNumber) {
       var ip = ipNumber;
-    }else{
+    } else {
       var ip = this.ipAdrressForm.controls.ip.value
     }
     this.spinner.show();
@@ -63,9 +63,7 @@ export class HomeComponent implements OnInit {
       )
       .subscribe(res => {
         this.spinner.hide();
-        console.log(res);
         this.infoIp = res;
-        console.log(this.infoIp);
         this.getCoordinates(res);
       });
   }
@@ -80,13 +78,11 @@ export class HomeComponent implements OnInit {
       )
       .subscribe(res => {
         this.setCoordinatesMap(res);
-        console.log(res);
       });
   }
 
-  async setCoordinatesMap(dataCountry: Coordinates[]){
+  async setCoordinatesMap(dataCountry: Coordinates[]) {
     let coordinatesCountry = dataCountry[0];
-    console.log(dataCountry[0]);
     this.map.remove();
     this.map = L.map('map').setView([coordinatesCountry.latitude, coordinatesCountry.longitude], 12);
 
@@ -94,12 +90,18 @@ export class HomeComponent implements OnInit {
       maxZoom: 19,
       attribution: '© OpenStreetMap'
     }).addTo(this.map);
+
+    var myIcon = L.icon({
+      iconUrl: 'assets/images/icon-location.svg',
+      iconSize: [45, 55],
+    });
+
+    L.marker([coordinatesCountry.latitude, coordinatesCountry.longitude], {icon: myIcon}).addTo(this.map);
   }
 
-  async getMyIp(){
-    this.ipService.getIPAddress().subscribe(res=>{
+  async getMyIp() {
+    this.ipService.getIPAddress().subscribe(res => {
       this.myActualIp = res.ip;
-      console.log(this.myActualIp);
       this.getIpAddress(this.myActualIp);
     });
   }
