@@ -1,0 +1,78 @@
+@import 'mixin-screen';
+
+:host {
+    display: flex;
+    justify-content: center;
+
+    .card {
+        position: absolute;
+        width: 75%;
+        z-index: 1000;
+        background-color: white;
+        border-radius: 15px;
+        height: 18vh;
+        display: flex;
+        align-items: center;
+        transform: translateY(-9vh);
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.15);
+
+        @include screen('mobile') {
+            flex-direction: column;
+            height: auto;
+            gap: 2.8vh;
+            padding: 2vh;
+        }
+
+        &__box-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding: 0 5vh;
+            width: 100%;
+            gap: 1vh;
+
+            @include screen('mobile') {
+                justify-content: center;
+                align-items: center;
+                gap: 1.2vh;
+            }
+
+            h2 {
+                font-family: var(--primary-font-family);
+                color: var(--secondary-color);
+                font-size: 15px;
+                margin: 0;
+
+                @include screen('mobile') {
+                    font-size: 10px;
+                    text-align: center;
+                    font-weight: 600;
+                    letter-spacing: 3px;
+                }
+
+            }
+
+            p {
+                font-family: var(--primary-font-family);
+                font-size: 25px;
+                margin: 0;
+
+                @include screen('mobile') {
+                    font-size: 20px;
+                    text-align: center;
+                    font-weight: 600;
+                }
+            }
+        }
+
+        .separador {
+            width: 1px;
+            background-color: var(--secondary-color);
+            height: 7vh;
+
+            @include screen('mobile') {
+                display: none;
+            }
+        }
+    }
+}

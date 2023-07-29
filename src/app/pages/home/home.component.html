@@ -1,1 +1,27 @@
-<p>home works!</p>
+<div class="container">
+
+    <div class="container__header">
+        <h1>IP Address Tracker</h1>
+        <form [formGroup]="ipAdrressForm">
+            <div class="container__header__box-input">
+
+                <input placeholder="Search for any IP address or domain" maxlength="20" formControlName="ip" required>
+                <div class="flex justify-end box-eye">
+                    <button [disabled]="ipAdrressForm.invalid" (click)="getIpAddress()" ><img [src]="imgButton" alt="" /></button>
+                </div>
+            </div>
+            <p class="form-error" *ngIf="ipAdrressForm.controls['ip'].errors?.['pattern']">
+                Ingrese una IP correcta!
+            </p>
+        </form>
+    </div>
+
+    <div class="container__boxCard">
+        <app-card-info [data]="infoIp" ></app-card-info>
+    </div>
+
+    <div class="container__boxMap">
+        <div id="map"></div>
+    </div>
+</div>
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>

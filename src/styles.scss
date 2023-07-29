@@ -1,1 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
+html, body { height: 100%; }
+
+body {
+    margin: 0 !important;
+}
+
+.flex{
+    display: flex;
+}
+
+.justify-end{
+    justify-content: flex-end;
+}
+
+:root{
+    --primary-color: hsl(0, 0%, 17%);
+    --secondary-color: hsl(0, 0%, 59%);
+    --primary-font-family: 'Rubik', sans-serif;
+}

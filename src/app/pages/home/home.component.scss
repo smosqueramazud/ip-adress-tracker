@@ -1,0 +1,98 @@
+@import 'mixin-screen';
+
+.container {
+    &__header {
+        height: 30vh;
+        width: 100%;
+        background: url(../../../assets/images/pattern-bg.png) no-repeat;
+        background-size: cover;
+        padding-top: 5vh;
+
+
+
+        .form-error{
+            font-family: var(--primary-font-family);
+            color: #fff;
+            font-size: .8em;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: var(--primary-font-family);
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            font-size: 35px;
+            
+            @include screen('mobile') {
+                font-size: 28px;
+            }
+        }
+
+        &__box-input {
+            display: flex;
+            justify-content: center;
+            margin-top: 3vh;
+
+            .box-eye {
+                align-items: center;
+
+                button{
+                    position: absolute;
+                    height: 6.5vh;
+                    width: 6vh;
+                    border-radius: 0px 15px 15px 0;
+                    border-color: transparent;
+                    background-color: black;
+                    cursor: pointer;
+                }
+
+                button:hover{
+                    background-color: rgba(0, 0, 0, 0.8);
+                }
+
+                button:disabled {
+                    background-color: gray;
+                }
+            }
+
+            input {
+                width: 60vh;
+                height: 5.8vh;
+                border-radius: 15px;
+                border-color: transparent;
+                font-size: 18px;
+                padding-left: 2vh;
+                cursor: pointer;
+
+                @include screen('mobile') {
+                    width: 36vh;
+                }
+            }
+
+            input::placeholder {
+                @include screen('mobile') {
+                    font-size: 14px;
+                }
+
+            }
+            input:focus-visible {
+                outline: none;
+            }
+        }
+    }
+
+    &__boxCard{
+        display: flex;
+        justify-content: center;
+    }
+
+    &__boxMap{
+
+        #map{
+            min-height: 65vh;
+            width: 100%;
+        }
+    }
+}
+
