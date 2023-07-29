@@ -100,9 +100,18 @@ export class HomeComponent implements OnInit {
   }
 
   async getMyIp() {
-    this.ipService.getIPAddress().subscribe(res => {
-      this.myActualIp = res.ip;
-      this.getIpAddress(this.myActualIp);
-    });
+    await this.ipService.getMyIpAddress()
+      .pipe(
+        catchError((err: any) => {
+          this.spinner.hide();
+          return throwError(err);
+        }),
+      )
+      .subscribe(res => {
+        this.spinner.hide();
+        this.myActualIp = res.ip;
+        this.getIpAddress(this.myActualIp);
+      });
+
   }
 }

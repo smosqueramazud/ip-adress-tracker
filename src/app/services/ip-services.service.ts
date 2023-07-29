@@ -12,11 +12,16 @@ export class IpServicesService {
 
   http: HttpClient = inject(HttpClient);
 
+  apiKey = 'at_eddpYnnHrWAv3TayVMNTDGCmY2rRU';
+
   constructor() { }
 
+  public getMyIpAddress(): Observable<IpRes> {
+    return this.http.get<IpRes>(`https://geo.ipify.org/api/v2/country?apiKey=${this.apiKey}`);
+  }
+
   public getInfoAddress(ip: string): Observable<IpRes> {
-    const apiKey = 'at_eddpYnnHrWAv3TayVMNTDGCmY2rRU';
-    return this.http.get<IpRes>(`https://geo.ipify.org/api/v2/country?apiKey=${apiKey}&ipAddress=${ip}`);
+    return this.http.get<IpRes>(`https://geo.ipify.org/api/v2/country?apiKey=${this.apiKey}&ipAddress=${ip}`);
   }
 
   public getCoordinates(data: any): Observable<Coordinates[]> {
@@ -26,9 +31,4 @@ export class IpServicesService {
     return this.http.get<Coordinates[]>(`https://api.api-ninjas.com/v1/geocoding?city=${data.region}&country=${data.country}`,
     { 'headers': headers });
   }
-
-  public getIPAddress(): Observable<any> {
-    return this.http.get<any>("http://api.ipify.org/?format=json");
-  }
-
 }
