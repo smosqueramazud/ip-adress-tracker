@@ -14,6 +14,11 @@ export class IpServicesService {
 
   constructor() { }
 
+  public getMyIpAddress(): Observable<IpRes> {
+    const apiKey = 'at_eddpYnnHrWAv3TayVMNTDGCmY2rRU';
+    return this.http.get<IpRes>(`https://geo.ipify.org/api/v2/country?apiKey=${apiKey}`);
+  }
+
   public getInfoAddress(ip: string): Observable<IpRes> {
     const apiKey = 'at_eddpYnnHrWAv3TayVMNTDGCmY2rRU';
     return this.http.get<IpRes>(`https://geo.ipify.org/api/v2/country?apiKey=${apiKey}&ipAddress=${ip}`);
@@ -26,9 +31,4 @@ export class IpServicesService {
     return this.http.get<Coordinates[]>(`https://api.api-ninjas.com/v1/geocoding?city=${data.region}&country=${data.country}`,
     { 'headers': headers });
   }
-
-  public getIPAddress(): Observable<any> {
-    return this.http.get<any>("http://api.ipify.org/?format=json");
-  }
-
 }
