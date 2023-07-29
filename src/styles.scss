@@ -1,5 +1,15 @@
+html, body { height: 100%; }
+
 body {
     margin: 0 !important;
+}
+
+.flex{
+    display: flex;
+}
+
+.justify-end{
+    justify-content: flex-end;
 }
 
 :root{
