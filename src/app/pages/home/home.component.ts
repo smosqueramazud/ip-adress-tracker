@@ -4,13 +4,17 @@ import { IpServicesService } from 'src/app/services/ip-services.service';
 import { inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { catchError, throwError } from 'rxjs';
+import { IpRes } from 'src/app/models/ip-res';
+import { Coordinates } from 'src/app/models/coordinates';
+import { CardInfoComponent } from './components/card-info/card-info.component';
+import { NgxSpinnerService, NgxSpinnerModule  } from 'ngx-spinner';
 
 declare const L: any;
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, CardInfoComponent, NgxSpinnerModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
@@ -18,10 +22,13 @@ export class HomeComponent implements OnInit {
 
   ipService: IpServicesService = inject(IpServicesService);
   fb: FormBuilder = inject(FormBuilder);
+  spinner: NgxSpinnerService = inject(NgxSpinnerService);
 
   imgButton = 'assets/images/icon-arrow.svg';
 
   map: any;
+  infoIp: IpRes | undefined;
+  myActualIp: string | undefined;
 
   ipAdrressForm = this.fb.nonNullable.group(
     {
@@ -31,6 +38,7 @@ export class HomeComponent implements OnInit {
   );
 
   ngOnInit() {
+    this.getMyIp();
     this.map = L.map('map').setView([3.43722, -76.5225], 12);
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -39,21 +47,30 @@ export class HomeComponent implements OnInit {
     }).addTo(this.map);
   }
 
-  async getIpAddress() {
-    let ip = this.ipAdrressForm.controls.ip.value
+  async getIpAddress(ipNumber?: string) {
+    if(ipNumber){
+      var ip = ipNumber;
+    }else{
+      var ip = this.ipAdrressForm.controls.ip.value
+    }
+    this.spinner.show();
     await this.ipService.getInfoAddress(ip)
       .pipe(
         catchError((err: any) => {
+          this.spinner.hide();
           return throwError(err);
         }),
       )
       .subscribe(res => {
+        this.spinner.hide();
         console.log(res);
+        this.infoIp = res;
+        console.log(this.infoIp);
         this.getCoordinates(res);
       });
   }
 
-  async getCoordinates(data: any) {
+  async getCoordinates(data: IpRes) {
     let dataCountry = data.location;
     await this.ipService.getCoordinates(dataCountry)
       .pipe(
@@ -67,7 +84,7 @@ export class HomeComponent implements OnInit {
       });
   }
 
-  async setCoordinatesMap(dataCountry: any){
+  async setCoordinatesMap(dataCountry: Coordinates[]){
     let coordinatesCountry = dataCountry[0];
     console.log(dataCountry[0]);
     this.map.remove();
@@ -79,4 +96,11 @@ export class HomeComponent implements OnInit {
     }).addTo(this.map);
   }
 
+  async getMyIp(){
+    this.ipService.getIPAddress().subscribe(res=>{
+      this.myActualIp = res.ip;
+      console.log(this.myActualIp);
+      this.getIpAddress(this.myActualIp);
+    });
+  }
 }

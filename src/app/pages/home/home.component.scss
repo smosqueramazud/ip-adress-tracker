@@ -1,3 +1,5 @@
+@import 'mixin-screen';
+
 .container {
     &__header {
         height: 30vh;
@@ -5,6 +7,8 @@
         background: url(../../../assets/images/pattern-bg.png) no-repeat;
         background-size: cover;
         padding-top: 5vh;
+
+
 
         .form-error{
             font-family: var(--primary-font-family);
@@ -19,6 +23,10 @@
             text-align: center;
             margin: 0;
             font-size: 35px;
+            
+            @include screen('mobile') {
+                font-size: 28px;
+            }
         }
 
         &__box-input {
@@ -56,12 +64,27 @@
                 font-size: 18px;
                 padding-left: 2vh;
                 cursor: pointer;
+
+                @include screen('mobile') {
+                    width: 36vh;
+                }
             }
 
+            input::placeholder {
+                @include screen('mobile') {
+                    font-size: 14px;
+                }
+
+            }
             input:focus-visible {
                 outline: none;
             }
         }
+    }
+
+    &__boxCard{
+        display: flex;
+        justify-content: center;
     }
 
     &__boxMap{
