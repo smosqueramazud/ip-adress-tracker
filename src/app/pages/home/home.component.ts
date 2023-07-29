@@ -21,6 +21,8 @@ export class HomeComponent implements OnInit {
 
   imgButton = 'assets/images/icon-arrow.svg';
 
+  map: any;
+
   ipAdrressForm = this.fb.nonNullable.group(
     {
       ip: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(20),
@@ -29,16 +31,15 @@ export class HomeComponent implements OnInit {
   );
 
   ngOnInit() {
-    var map = L.map('map').setView([3.43722, -76.5225], 13);
+    this.map = L.map('map').setView([3.43722, -76.5225], 12);
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '© OpenStreetMap'
-    }).addTo(map);
+    }).addTo(this.map);
   }
 
   async getIpAddress() {
-    console.log(this.ipAdrressForm.invalid);
     let ip = this.ipAdrressForm.controls.ip.value
     await this.ipService.getInfoAddress(ip)
       .pipe(
@@ -48,6 +49,34 @@ export class HomeComponent implements OnInit {
       )
       .subscribe(res => {
         console.log(res);
+        this.getCoordinates(res);
       });
   }
+
+  async getCoordinates(data: any) {
+    let dataCountry = data.location;
+    await this.ipService.getCoordinates(dataCountry)
+      .pipe(
+        catchError((err: any) => {
+          return throwError(err);
+        }),
+      )
+      .subscribe(res => {
+        this.setCoordinatesMap(res);
+        console.log(res);
+      });
+  }
+
+  async setCoordinatesMap(dataCountry: any){
+    let coordinatesCountry = dataCountry[0];
+    console.log(dataCountry[0]);
+    this.map.remove();
+    this.map = L.map('map').setView([coordinatesCountry.latitude, coordinatesCountry.longitude], 12);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap'
+    }).addTo(this.map);
+  }
+
 }
